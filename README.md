@@ -1,2 +1,5 @@
-# mssql-playground
-Notes, queries, thoughts...
+# MS SQL playground
+
+## Table of content
+* [DDL](DDL.md)
+
