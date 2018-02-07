@@ -1,6 +1,12 @@
 # MS SQL playground
 
 ## Table of content
+
+### Theory
 * [DDL](DDL.md)
-* [Запросы](Queries.md)
-* [Join](Join.md)
+* [Queries](QUERIES.md)
+* [Join](JOIN.md)
+
+### Exercises
+* [DDL](Exercises/DDL.md)
+* [Queries](Exercises/QUERIES.md)

@@ -1,25 +1,24 @@
 # DDL
 
 ## Содержание
-* [Создание БД](#a-создание-бд)
-* [Создание моментального снимка БД](#a-создание-моментального-снимка-бд)
-* [Присоединение и отсоединение БД](#a-присоединение-и-отсоединение-бд)
-* [CREATE TABLE (базовая инструкция)](#a-create-table-базовая-инструкция)
-* [CREATE TABLE (с ограничениями декларативной целостности)](#a-create-table-с-ограничениями-декларативной-целостности)
-* [Предложение `UNIQUE`](#a-предложение-unique)
-* [Предложение `PRIMARY KEY`](#a-предложение-primary-key)
-* [Предложение `CHECK`](#a-предложение-check)
-* [Предложение `FOREIGN KEY`](#a-предложение-foreign-key)
-* [Ссылочная целостность](#a-ссылочная-целостность)
-* [Возможные проблемы со ссылочной целостностью](#a-возможные-проблемы-со-ссылочной-целостностью)
-* [Опции `ON DELETE` и `ON UPDATE`](#a-опции-on-delete-и-on-update)
-* [Создание других объектов БД](#a-создание-других-объектов-бд)
-* [Ограничения для обеспечения целостности и домены](#a-ограничения-для-обеспечения-целостности-и-домены)
-* [Модифицирование объектов БД](#a-модифицирование-объектов-бд)
-* [Переименование таблиц и других объектов БД](#a-переименование-таблиц-и-других-объектов-бд)
-* [Удаление объектов БД](#a-удаление-объектов-бд)
+* [Creation of a DB](#creation-of-a-db)
+* [Creation of a DB snapshot](#creation-of-a-db-snapshot)
+* [Attaching and Detaching Databases](#attaching-and-detaching-databases)
+* [`CREATE TABLE` a basic form](#create-table-a-basic-form)
+* [`CREATE TABLE` and declarative integrity constraints](#create-table-and-declarative-integrity-constraints)
+* [`UNIQUE` clause](#unique-clause)
+* [`CHECK` clause](#check-clause)
+* [`FOREIGN KEY` clause](#foreign-key-clause)
+* [Referential Integrity](#referential-integrity)
+* [`ON DELETE` and `ON UPDATE` options](#on-delete-and-on-update-options)
+* [Creating other DB objects](#creating-other-db-objects)
+* [Integrity constraints and domains](#integrity-constraints-and-domains)
+* [Modifying DB objects](#modifying-db-objects)
+* [Altering a table](#altering-a-table)
+* [Renaming tables and other DB objects](#renaming-tables-and-other-db-objects)
+* [Removing DB objects](#removing-db-objects)
 
-## [**Создание БД**](#a-создание-бд)
+## **Creation of a DB**
 ```sql
 --template
 CREATE DATABASE db_name
@@ -58,7 +57,7 @@ LOG ON
 ```
 Созданная БД называется `projects`. Т.к. опция `PRIMARY` не указана, но первичнвм файлом предполагается первый файл. Этот файл имеет логическое имя `projects_dat` и он сохраняется в дисковом файле `projects.mdf`. Исходный размер этого файла 10Мб с приращением при необходимости в 5Мб. Если не указать опцию `MAXSIZE` или этой если присвоить значение `UNLIMITED`, то максимальный размер файла может увеличиваться и будет ограничивать ся только размером дискового пространства (`MB`, `KB`, `TB`). Также создается файл журнала транзакций.
 
-## [**Создание моментального снимка БД**](#a-создание-моментального-снимка-бд)
+## **Creation of a DB snapshot**
 \- согласованная с точки зрения завершенных транзакций копия исходной БД на момент создания снимка доступная только для чтения (необходим NTFS)
 
 ```sql
@@ -77,14 +76,14 @@ CREATE DATABASE AdventureWorks_snapshot
         FILENAME='C:\temp\snapshot_db.mdf')
     AS SNAPSHOT OF AdventureWorks;
 ```
-## [**Присоединение и отсоединение БД**](#a-присоединение-и-отсоединение-бд)
+## **Attaching and Detaching Databases**
 Используется при перемещении БД. 
 
 *Отсоединение:* системная функция `sp_detach_db` (ДБ должна находиться в однопользовательском режиме)
 
 *Присоединение:* `CREATE DATABASE` с `FOR ATTACH`
 
-## [**CREATE TABLE (базовая инструкция)**](#a-create-table-базовая-инструкция)
+## **`CREATE TABLE` a basic form**
 ```sql
 --template
 CREATE TABLE table_name
@@ -118,7 +117,7 @@ CREATE TABLE works_on (emp_no INTEGER NOT NULL,
 * `DEFAULT` - указывает значение столбца по умолчанию (также можно указать одну из системных функций: `USER`, `CURRENT_USER`, `SESSION_USER`, `SYSTEM_USER`, `CURRENT_TIMESTAMP`, `NULL`)
 * `IDENTITY` - столбец иднтификаторов может иметь только целочисленные значения, начальное значение и шаг инкремента
 
-## [**CREATE TABLE (с ограничениями декларативной целостности)**](#a-create-table-с-ограничениями-декларативной-целостности)
+## **`CREATE TABLE` and declarative integrity constraints**
 Ограничения, которые используются для проверки данных при модификации или вставке (integrity constraints). Декларативные (`CREATE TABLE`, `ALTER TABLE`) и при помощи триггеров. Ограничения уровня столбцов, уровня таблицы. 
 
 Декларативные ограничения можно сгруппировать:
@@ -128,7 +127,7 @@ CREATE TABLE works_on (emp_no INTEGER NOT NULL,
 * `CHECK`
 * `FOREIGN KEY` ссылочная целостность
 
-## [**Предложение `UNIQUE`**](#a-предложение-unique)
+## **`UNIQUE` clause**
 Иногда несколько столбцов таблицы имеют уникальные значения, что позваоляет их использовать в качестве первичного ключа (candidate key). `CREATE TABLE` или `ALTER TABLE`.
 
 ```sql
@@ -146,7 +145,7 @@ CREATE TABLE projects (project_no CHAR(4) DEFAULT 'p1',
                        CONSTRAINT unique_no UNIQUE (project_no));
 ```
 
-## [**Предложение `PRIMARY KEY`**](#a-предложение-primary-key)
+## **`PRIMARY KEY` clause**
 Первичным ключом является столбец или группа столбцов, значения которого разные в каждой строке. `CREATE TABLE` или `ALTER TABLE`.
 ```sql
 --template
@@ -174,7 +173,7 @@ CREATE TABLE employee (emp_no INTEGER NOT NULL CONSTRAINT prim_empl PRIMARY KEY,
                        dept_no CHAR(4) NULL);
 ```
 
-## [**Предложение `CHECK`**](#a-предложение-check)
+## **`CHECK` clause**
 `CREATE TABLE` или `ALTER TABLE`.
 ```sql
 --template
@@ -191,7 +190,7 @@ CREATE TABLE customer (cust_no INTEGER NOT NULL,
                        CHECK (cust_group IN ('c1', 'c2', 'c10')));
 ```
 
-## [**Предложение `FOREIGN KEY`**](#a-предложение-foreign-key)
+## **`FOREIGN KEY` clause**
 Внешний ключ (foreign key) - столбец (или группа столбцов) содержащий значения, совпадающие со значениями первичного ключа другой таблицы. Внешний ключ определяется с помощью предложения `FOREIGN KEY` в комбинации с предложением `REFERENCES`.
 
 ```sql
@@ -214,7 +213,7 @@ CREATE TABLE works_on (emp_no INTEGER NOT NULL,
                             REFERENCES employee (emp_no));
 ```
 
-## [**Ссылочная целостность**](#a-cсылочная-целостность)
+## **Referential integrity**
 (referencial integrity) обеспечивает выполнение правил для вставок и обновлений таблиц, содержащих ключ и соответсвующее ограничение первичного ключа.
 
 ## [**Возможные проблемы со ссылочной целостностью**](#a-возможные-проблемы-со-ссылочной-целостностью)
@@ -247,7 +246,7 @@ UPDATE employee
 ### Случай 4 (модификация родительской таблицы)
 Удаление строки в таблице `employee` со значением `emp_no` равным 10102.
 
-## [**Опции `ON DELETE` и `ON UPDATE`**](#a-опции-on-delete-и-on-update`)
+## **`ON DELETE` and `ON UPDATE` options**
 При попытке внести обновления в значения первичного ключа, вызывающие несогласованность в соответсвующем внешнем ключе, система БД может реагировать достаточно гибко. 
 * `NO ACTION` - Модифицируются только те значения в родительской таблице, для которых нет соответствующих значений во внещнем ключе дочерней таблицы. 
 * `CASCADE` - При обновлении первичного ключа или удалении всей строки, в дочерней таблице обновляются все строки с соответсвующими значениями внешнего ключа. 
@@ -268,7 +267,7 @@ CREATE TABLE works_on1
      CONSTRAINT foreign2_works1 FOREIGN KEY(project_no)
         REFERENCES project(project_no)( ON UPDATE CASCADE);
 ```
-## [**Создание других объектов БД**](#a-создание-других-объектов-бд`)
+## **Creating other DB objects**
 * `VIEW` - представление, виртуальная таблица, извлекается из одной или нескольких базовых таблиц (DML).
 * `INDEX`
 * `PROCEDURE` - хранимая процедура, stored procedure
@@ -281,7 +280,7 @@ CREATE SYNONYM prod FOR AdventureWorks.Poduction.Product;
 ```
 * `schema` - схема, содержит инструкции для создания таблиц, представлений и пользщовательских разрешений. 
 
-## [**Ограничения для обеспечения целостности и домены**](#a-ограничения-для-обеспечения-целостности-и-домены`)
+## **Integrity constraints and domains**
 Домен (domain) - набор все возможных разрешенных значений, которые могут содержать столбцы таблицы.
 
 Псевдоним типа данных (alias data type) - специальный тип, определяемый пользователем.
@@ -307,7 +306,7 @@ CREATE TYPE person_table AS TABLE
     (name VARCHAR(30), salary DECIMAL(8,2));
 ```
 
-## [**Модифицирование объектов БД**](#a-модифицирование-объектов-бд`)
+## **Modifying DB objects**
 * БД
 * таблицы
 * хранимых процедур
@@ -341,7 +340,7 @@ MODIFY FILEGROUP -- и файловых групп
 ALTER DATABASE SET -- изменение опций БД
 ```
 
-## [**Изменение таблиц**](#a-изменение-таблиц`)
+## **Altering a table**
 ```sql
 --script
 USE sample;
@@ -379,7 +378,7 @@ ALTER TABLE sales
 sp_helpconstraint -- посмотреть все имена ограничений таблицы
 ```
 
-## [**Переименование таблиц и других объектов БД**](#a-переименование-таблиц-и-других-объектов-бд`)
+## **Renaming tables and other DB objects**
 ```sql
 --script
 USE sample;
@@ -388,22 +387,10 @@ EXEC sp_rename @objname=departmnent, @newname=subdivision
 USE sample;
 EXEC sp_rename @objname='sales.order_no', @newname=ordernumber
 ```
-## [**Удаление объектов БД**](#a-удаление-объектов-бд`)
+## **Removing DB objects**
 ```sql
 --template
 DROP object_type object_name
 DROP DATABASE database1 {, ...}
 DROP TYPE|SYNONYM|PROCEDURE|INDEX|VIEW|TRIGGER|SCHEMA
-```
-
-
-```sql
---template
-
-```
-
-
-```sql
---script
-
 ```
