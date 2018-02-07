@@ -1,6 +1,6 @@
 # MS SQL playground
 
-## Table of content
+## Table of contents
 
 ### Theory
 * [DDL](DDL.md)

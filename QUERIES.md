@@ -1,6 +1,6 @@
-# Запросы
+# Queries
 
-## Содержание
+## Table of contents
 * [`SELECT`](#select)
 * [`WHERE`](#where)
 * [Операторы `IN` и `BETWEEN`](#in-between)

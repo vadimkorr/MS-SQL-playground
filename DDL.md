@@ -1,6 +1,6 @@
 # DDL
 
-## Содержание
+## Table of contents
 * [Creation of a DB](#creation-of-a-db)
 * [Creation of a DB snapshot](#creation-of-a-db-snapshot)
 * [Attaching and Detaching Databases](#attaching-and-detaching-databases)

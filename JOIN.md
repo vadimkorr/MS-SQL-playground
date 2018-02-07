@@ -1,5 +1,18 @@
 # Join
 
+## Table of contents
+* [Joining more than two tables](#joining-more-than-two-tables)
+* [Cartesian Product](#cartesian-product)
+* [Outer Join](#outer-join)
+* [Theta Join](#theta-join)
+* [Self join](#self-join)
+* [Semi join](#semi-join)
+* [Subqueries and `EXISTS` function](#subqueries-and-exists-function)
+* [Table expressions](#table-expressions)
+* [Common table expressions](#common-table-expressions)
+* [CTEs and nonrecursive queries](#ctes-and-nonrecursive-queries)
+* [CTEs and recursive queries](#ctes-and-recursive-queries)
+
 Несколько различных форм:
 * естественное соединение 
 * декартово произведение
@@ -29,7 +42,7 @@ SELECT employee.*, department.*
     ON employee.dept_no = department.dept_no;
 ```
 
-## Соединение более 2х таблиц
+## **Joining more than two tables**
 ```sql
 /* Выборка наименований проектов (с удалением избыточных дубликатов), в которых участвуют сотрудники бухгалтерии
 */
@@ -43,7 +56,7 @@ SELECT DISTINCT project_name
     WHERE dept_name = 'Accounting';
 ```
 
-## Декартово произведение
+## **Cartesian product**
 ```sql
 --script
 USE sample;
@@ -51,7 +64,7 @@ SELECT employee.*, department.*
     FROM employee CROSS JOIN department;
 ```
 
-## Внешнее соединение
+## **Outer join**
 
 Иногда кроме совпадающих строк бывает необходимым извлечь из одной или обеих таблиц строки без совпадений. 
 
@@ -69,9 +82,9 @@ SELECT employee_enh.*, department.location
 ```
 Эмуляция левого внешнего соединения с помощью UNION и NOT EXIST. (стр 200)
 
-## Тета-соединение
+## **Theta join**
 
-## Самосоединение
+## **Self join**
 ```sql
 --script
 USE sample;
@@ -81,7 +94,7 @@ SELECT t1.dept_no, t1.dept_name, t1.location
     WHERE t1.dept_no <> t2.dept_no;
 ```
 
-## Полусоединение
+## **Semi join**
 Похоже на естественное соединение, но взвращает только набор всех строк из одной таблицы, для которой в другой таблице есть одно или несколько совпадений. Еще одна особенность: список выбора SELECT содержит толлько столбцы из таблицы employee.
 ```sql
 --script
@@ -92,16 +105,16 @@ SELECT emp_no, emp_lname, e.dept_no
     WHERE location = 'NY';
 ```
 
-## Подзапросы, функция `EXIST`
+## **Subqueries and `EXISTS` function**
 * \+'s: подзапросов
 * \+'s: соединений
 
-## Табличные выражения
+## **Table expressions**
 \- подзапросы, которые используются там, где ожидается наличие таблицы. 
 * производные таблицы
 * обобщенные табличные выражения
 
-## Производные таблицы
+## **Derived tables**
 \- derived table, табличное выражение, входящее в предложение FROM запроса. 
 
 ```sql
@@ -122,12 +135,12 @@ SELECT enter_month
     GROUP BY enter_month;
 ```
 
-## Обощенные табличные выражения
+## **Common table expressions**
 \- common table expression (CTE) - именованное табличное выражение, поддерживаемое языком T-SQL. Используются в следующих типах запросов:
 * нерекурсивных
 * рекурсивных
 
-### ОТВ и нерекурсивные запросы
+## **CTEs and nonrecursive queries**
 ```sql
 --template
 WITH cte_name (column_list) AS
@@ -148,7 +161,7 @@ SELECT SalesOrderID
     AND Freight > (SELECT year_2002 FROM price_calc)/2.5;
 ```
 
-### ОТВ и рекурсивные запросы
+## **CTEs and recursive queries**
 
 ```sql
 --template
@@ -173,17 +186,4 @@ SELECT a.containing_assembly, a.quantity_contained, CAST (l.quantity*l.cost AS D
 SELECT assembly, SUM(quantity) parts, SUM(cost) sum_cost
     FROM list_of_parts
     GROUP BY assembly;
-```
-
-
-
-
-```sql
---template
-
-```
-
-```sql
---script
-
 ```
