@@ -3,20 +3,18 @@
 ## Table of contents
 * [`SELECT`](#select)
 * [`WHERE`](#where)
-* [Операторы `IN` и `BETWEEN`](#in-between)
-* [Оператор `LIKE`](#like-оператор)
+* [`IN` and `BETWEEN` Operators](#in-and-between-operators)
+* [`LIKE`](#like)
 * [`GROUP BY`](#group-by)
-* [Агрегатные функции](#agregatnye-funkzii)
+* [Aggregate functions](#aggregate-functions)
 * [`HAVING`](#having)
 * [`ORDER BY`](#order-by)
-* [Extra](#extra)
-* [Операторы работы с наборами](#operatori-raboti-s-naborami)
-* [Выражение `CASE`](#virazhenie-case)
-* [Подзапросы](#podzaprosi)
-* [Временные таблицы](#vremennie-tablizi)
+* [Additional data](#additional-data)
+* [Set operators](#set-operators)
+* [`CASE` expressions](#case-expressions)
+* [Temporary tables](#temporary-tables)
 
-
-## [**`SELECT`**](#select)
+## **`SELECT`**
 ```sql
 --template
 SELECT [ALL|DISTINCT] column_list
@@ -29,7 +27,7 @@ SELECT [ALL|DISTINCT] column_list
 ```
 `DISTINCT` можно использовать лишь раз, должен предшествовать всем столбцам
 
-## [**`WHERE`**](#where)
+## **`WHERE`**
 ```sql
 --script
 USE sample;
@@ -81,7 +79,7 @@ OR
 NOT
 ```
 
-## [**Операторы `IN` и `BETWEEN`**](#in-between)
+## **`IN` and `BETWEEN` Operators**
 ```sql
 --script
 USE sample;
@@ -99,7 +97,7 @@ SELECT project_name, budget
 ```
 `BETWEEN` включает границы диапазона
 
-## [**Оператор `LIKE`**](#like-оператор)
+## **`LIKE`**
 
 ```sql
 --template
@@ -130,7 +128,7 @@ WHERE project_name LIKE '%!_%' ESCAPE '!';
 WHERE project_name LIKE '%[_]%';
 ```
 
-## [**`GROUP BY`**](#group-by)
+## **`GROUP BY`**
 Каждый столбец в списке выборки запроса также должен присутствовать в предложениии `GROUP BY`.
 
 ```sql
@@ -141,7 +139,7 @@ SELECT project_no, job
     GROUP BY project_no, job;
 ```
 
-## [**Агрегатные функции**](#agregatnye-funkzii)
+## **Aggregate functions**
 * обычные (`MIN`, `MAX`, `SUM`, `AVG`, `COUNT`, `COUNT_BIG`)
 * статистичнские (`VAR`, `VARP`, `STDEV`, `STDEVP`)
 * определяемые пользователем
@@ -157,7 +155,7 @@ SELECT emp_no, emp_lname
          FROM employee);
 ```
 
-## [**`HAVING`**](#having)
+## **`HAVING`**
 Поределяется условие, которое применяется у группе строк
 ```sql
 --script
@@ -177,7 +175,7 @@ SELECT job
     HAVING job LIKE 'M%';
 ```
 
-## [**`ORDER BY`**](#order-by)
+## **`ORDER BY`**
 ```sql
 --script
 USE sample;
@@ -207,12 +205,12 @@ SELECT BusinessEntityID, JobTitle, BirthDate
     FETCH NEXT 10 ROWS ONLY;
 ```
 
-## [**Extra**](#extra)
+## **Additional data**
 `IDENTITY`, `$identity`, `IDENT_SEED()`, `IDENT_INCR()`
 
 `SEQUENCE`
 
-## [**Операторы работы с наборами**](#operatori-raboti-s-naborami)
+## **Set operators**
 
 * `UNION` - объединяет результаты двух или более запросов в один результирующий набор, в который входят все строки. Можно объединять только совместимые таблицы (одинаковое число столбцов, совместимые типы данных). Результат объединения можно уплрядочить только с `ORDER BY`.
 ```sql
@@ -232,7 +230,7 @@ SELECT emp_no
 ```
 * `EXCEPT` - разность
 
-## [**Выражение `CASE`**](#virazhenie-case)
+## **`CASE` expressions**
 ```sql
 --script
 USE sample;
@@ -246,7 +244,7 @@ SELECT project_name,
 FROM project;
 ```
 
-## [**Подзапросы**](#podzaprosi)
+## **Subqueries**
 * независимые
 * связанные
 
@@ -255,7 +253,7 @@ FROM project;
 * оператором `IN`
 * операторами `ANY` и `ALL`
 
-## [**Временные таблицы**](#vremennie-tablizi)
+## **Temporary tables**
 Объект БД, хранится и управляется системой БД на временной основе. Имена начинаются с префикса `#`. Временная таблица принадлежит создавшему ее сеансу, и видима только ему. Глобальные временные таблицы начинаются с префикса `##`.
 ```sql
 --script
@@ -271,18 +269,4 @@ USE sample;
 SELECT project_no, project_name
     INTO #project_temp1
     FROM project;
-```
-
-
-
-
-
-
-```sql
---template
-
-```
-```sql
---script
-
 ```
