@@ -270,3 +270,65 @@ WHERE project_no IN (
 
 * 6.27 Выполните выборку имен и фамилий сотрудников, которые имеют должность менеджер (`manager`) и работают над проектом `Mercury`.
 
+```sql
+SELECT emp_fname, emp_lname
+FROM employee
+WHERE emp_no IN (
+	SELECT emp_no
+	FROM works_on w JOIN project p
+	ON w.project_no = p.project_no
+	WHERE job = 'manager'
+	AND p.project_name = 'Mercury');
+
+-- or
+
+SELECT emp_fname, emp_lname
+FROM 
+	employee e JOIN works_on w ON e.emp_no = w.emp_no
+			   JOIN project p ON w.project_no = p.project_no
+	WHERE job = 'manager'
+	AND p.project_name = 'Mercury';
+```
+
+* 6.28 Выполните выборку имен и фамилий всех сотрудников, которые начали работать над проектом одновременно, по крайней мере, еще с одним другим сотрудником.
+
+```sql
+SELECT emp_fname, emp_lname
+FROM 
+	works_on w JOIN employee e
+	ON w.emp_no = e.emp_no
+GROUP BY enter_date, emp_fname, emp_lname
+HAVING COUNT(*) > 1
+
+-- or
+
+SELECT emp_fname, emp_lname
+	FROM employee
+	WHERE emp_no IN
+         (SELECT a.emp_no
+		  FROM works_on a, works_on b
+		  WHERE  b.enter_date=a.enter_date
+		  AND a.emp_no != b.emp_no);
+```
+
+* 6.29 Выполните выборку табельных номеров сотрудников, которые живут в том же городе, где находится их отдел. (Используйте расширенную таблицу enployee_enh базы данных sample.)
+
+* 6.30 Выполните выборку табельных номеров всех сотрудников, работающих в отделе маркетинга marketing. Создайте два равнозначных запроса, используя:
+• оператор соединения;
+• связанный подзапрос. 
+
+```sql
+-- JOIN
+SELECT emp_no
+FROM department d JOIN employee e
+ON d.dept_no = e.dept_no
+WHERE d.dept_name = 'marketing';
+
+-- Subquery
+SELECT emp_no
+FROM employee e
+WHERE dept_no IN (
+	SELECT dept_no 
+	FROM department
+	WHERE dept_name = 'marketing');
+```
