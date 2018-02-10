@@ -6,7 +6,9 @@
 * [DDL](DDL.md)
 * [Queries](QUERIES.md)
 * [Join](JOIN.md)
+* [DML](DML.md)
 
 ### Exercises
 * [DDL](Exercises/DDL.md)
-* [Queries](Exercises/QUERIES.md)
+* [Queries (+join)](Exercises/QUERIES.md)
+* [DML](Exercises/DML.md)
