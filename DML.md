@@ -1,6 +1,12 @@
 # DML
 
 ## Table of contents
+* [`INSERT`](#insert)
+* [`UPDATE`](#update)
+* [`DELETE`](#delete)
+* [`TRUNCATE TABLE`](#truncate-table)
+* [`MERGE`](#merge)
+* [`OUTPUT`](#output)
 
 DML
 * `SELECT`
