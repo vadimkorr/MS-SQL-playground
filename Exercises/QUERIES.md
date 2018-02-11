@@ -1,3 +1,5 @@
+# Queries  (Tasks and solutions)
+
 * 6.1 Выполните выборку всех строк из таблицы works_on.
 
 ```sql
