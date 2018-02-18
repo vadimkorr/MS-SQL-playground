@@ -9,7 +9,7 @@
 * [DML](DML.md)
 * [Locks](LOCKS.md)
 * [Transactions & Isolation levels](TRANSACTIONS.md)
-* [Indices](Indices.md)
+* [Indices](INDICES.md)
 
 ### Exercises
 * [DDL](Exercises/DDL.md)
@@ -17,4 +17,4 @@
 * [DML](Exercises/DML.md)
 * [Locks](Exercises/LOCKS.md)
 * [Transactions & Isolation levels](Exercises/TRANSACTIONS.md)
-* [Indices](Exercises/Indices.md)
+* [Indices](Exercises/INDICES.md)
